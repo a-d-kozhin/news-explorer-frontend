@@ -1,0 +1,22 @@
+.about {
+  padding: 32px 16px;
+  color: #1A1B22;
+}
+
+.about__text {
+  margin: 16px 0 0 0;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.about__header {
+  margin: 24px 0 0 0;
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 40px;
+}

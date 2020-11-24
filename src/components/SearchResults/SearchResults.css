@@ -4,7 +4,7 @@
 }
 
 .search-results__header {
-  margin: 0 auto 0 0;
+  margin: 0 auto 24px 0;
   font-family: 'Roboto Slab';
   font-style: normal;
   font-weight: normal;
@@ -30,6 +30,7 @@
   align-items: center;
   text-align: center;
   color: #1A1B22;
+  cursor: pointer;
 }
 
 .articles {
@@ -52,8 +53,12 @@
   overflow: hidden;
 }
 
-.article__body {
+.article__link {
   text-decoration: none;
+  cursor: pointer;
+}
+
+.article__wrapper {
   padding: 16px;
 }
 
@@ -65,6 +70,7 @@
 }
 
 .article__date {
+  margin: 0 0 10px 0;
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: normal;
@@ -76,6 +82,7 @@
 }
 
 .article__title {
+  margin: 0 0 10px 0;
   font-family: 'Roboto Slab';
   font-style: normal;
   font-weight: normal;
@@ -85,6 +92,7 @@
 }
 
 .article__text {
+  margin: 0 0 8px 0;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: normal;
@@ -94,6 +102,7 @@
 }
 
 .article__source {
+  margin: 0;
   font-family: 'Roboto Slab';
   font-style: normal;
   font-weight: bold;

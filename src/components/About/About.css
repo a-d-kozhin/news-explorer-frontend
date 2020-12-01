@@ -1,9 +1,18 @@
 .about {
   padding: 32px 16px;
   color: #1A1B22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about__photo {
+  width: 272px;
+  height: 272px;
 }
 
 .about__text {
+  max-width: 600px;
   margin: 16px 0 0 0;
   font-family: 'Roboto';
   font-style: normal;
@@ -19,4 +28,22 @@
   font-weight: normal;
   font-size: 30px;
   line-height: 40px;
+}
+
+
+@media (min-width: 760px) {
+  .about {
+    flex-direction: row;
+    align-items: center;
+    padding: 40px 40px 60px 40px;
+  }
+  
+  .about__wrapper {
+    margin-left: 32px;
+    box-sizing: border-box;
+  }
+  .about__photo {
+    width: 232px;
+    height: 232px;
+  }
 }

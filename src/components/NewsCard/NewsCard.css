@@ -1,0 +1,238 @@
+.article {
+  position: relative;
+  height: 440px;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.article__link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.article__wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.article__image {
+  height: 196px;
+  width: 100%;
+  background-position: center center;
+  background-size: cover;
+}
+
+.article__date {
+  margin: 0 0 10px 0;
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #B6BCBF;
+}
+
+.article__title {
+  margin: 0 0 10px 0;
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 26px;
+  color: #1A1B22;
+}
+
+.article__text {
+  margin: 0 0 8px 0;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1A1B22;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: wrap;
+  max-height: 88px;
+  width: 100%;
+}
+
+.article__source {
+  margin: 0;
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #B6BCBF;
+}
+
+.article__label {
+  background: #FFFFFF;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article__keyword {
+  width: min-content;
+  margin: 0;
+  padding: 5px;
+  top: 16px; 
+  left: 16px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.article__icon {
+  width: 24px;
+  height: 24px;
+  border: none;
+  transition: all .3s linear;
+  cursor: pointer;
+  border: none;
+}
+
+.article__save-btn {
+  background: url(../../images/save-article-normal.svg) center center no-repeat transparent;
+  transition: all .3s linear;
+}
+
+.article__save-btn:hover {
+  background: url(../../images/save-article-hover.svg) center center no-repeat transparent;
+  transition: all .3s linear;
+}
+
+.article__save-btn:hover::before {
+  content: 'Войдите, чтобы сохранять статьи';
+  height: 40px;
+  position: absolute;
+  top: 50px;
+  left: -125px;
+  width: min-content;
+  white-space: nowrap;
+  padding: 5px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #000000;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  }
+
+.article__save-btn_marked {
+  background: url(../../images/save-article-marked.svg) center center no-repeat transparent;
+  width: 24px;
+  height: 24px;
+  border: none;
+  transition: all .3s linear;
+  cursor: pointer;
+}
+
+.article__remove-btn {
+  background: url(../../images/remove-button.svg) center center no-repeat transparent;
+  transition: all .3s linear;
+}
+
+.article__remove-btn:hover {
+  background: url(../../images/remove-button-hover.svg) center center no-repeat transparent;
+  transition: all .3s linear;
+}
+
+.article__remove-btn:hover::before {
+  content: 'Удалить статью из сохраненных';
+  height: 40px;
+  position: absolute;
+  top: 50px;
+  left: -125px;
+  width: min-content;
+  white-space: nowrap;
+  padding: 5px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: #000000;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+
+@media (min-width: 766px) {
+  .article {
+    height: 420px;
+  }
+  .article__image {
+    height: 150px;
+  }
+  .article__title {
+    font-size: 22px;
+    line-height: 24px;
+  }
+  .article__date {
+    margin: 0 0 12px 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .article {
+    height: 576px;
+  }
+  .article__wrapper {
+    height: 276px;
+  }
+  .article__source {
+    margin-top: 40px;
+  }
+  .article__image {
+    height: 272px;
+  }
+  .article__title {
+    font-size: 26px;
+    line-height: 30px;
+    margin: 0 0 16px 0;
+  }
+  .article__text {
+    width: 352px;
+    height: 110px;
+  }
+  .article__remove-btn:hover::before {
+    top: 0;
+    left: -175px;
+  }
+  .article__save-btn:hover::before {
+    top: 0;
+    left: -175px;
+  }
+}

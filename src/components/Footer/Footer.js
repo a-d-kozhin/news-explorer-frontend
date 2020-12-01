@@ -1,4 +1,3 @@
-import React from 'react';
 import git from '../../images/github.svg';
 import fb from '../../images/fb.svg';
 

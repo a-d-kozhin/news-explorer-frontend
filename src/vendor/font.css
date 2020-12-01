@@ -24,3 +24,8 @@
   src: url(../vendor/font/robotoslab-regular.woff) format('woff');
   font-family: 'Roboto Slab';
 }
+
+@font-face {
+  src: url(../vendor/font/Inter-Regular.woff) format('woff');
+  font-family: 'Inter';
+}

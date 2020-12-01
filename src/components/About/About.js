@@ -1,11 +1,10 @@
-import React from 'react';
 import aboutPhoto from '../../images/about-photo.png';
 
 function About() {
   return (
     <section className='about'>
       <img src={aboutPhoto} className='about__photo'></img>
-      <div className="about__wrapper">
+      <div className='about__wrapper'>
         <h3 className='about__header'>Об авторе</h3>
         <p className='about__text'>
           Это блок с описанием автора проекта. Здесь следует указать, как вас зовут, чем вы занимаетесь, какими технологиями разработки владеете.</p>

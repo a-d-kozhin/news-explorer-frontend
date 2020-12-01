@@ -1,11 +1,10 @@
-import React from 'react';
 import menuMobileWhite from '../../images/menu-white-mobile.svg';
 import menuMobileDark from '../../images/menu-dark-mobile.svg';
 import closeMenuMobileWhite from '../../images/close-white-mobile.svg';
-import { Link, Route, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-function Header({ mobileMenuIsClosed, onMenuClick, loggedIn }) {
+function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick }) {
 
   const path = useLocation().pathname;
 
@@ -25,13 +24,13 @@ function Header({ mobileMenuIsClosed, onMenuClick, loggedIn }) {
       <header className={`${path === '/' ? 'header ' : 'header header-logged'}`}>
         <Link to='/' className={getLogoClassname()}>News Explorer</Link>
         <div className='header__navbar'>
-        <Navigation loggedIn={loggedIn}></Navigation>
+        <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>
         </div>
         <img className='header__menu-icon' onClick={onMenuClick}
           src={getMenuIcon()} />
         <nav className={`${mobileMenuIsClosed ? 'navbar-mobile' : 'navbar-mobile-opened'}`}>
           <div className='navbar-mobile__container'>
-            <Navigation loggedIn={loggedIn}></Navigation>
+            <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>
           </div>
         </nav>
       </header>

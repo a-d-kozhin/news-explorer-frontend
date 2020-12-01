@@ -1,9 +1,7 @@
-import React from 'react';
-
 function Main(props) {
 
   return (
-    <main className="content">
+    <main className='content'>
       {props.children}
     </main>
   )

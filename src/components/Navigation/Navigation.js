@@ -2,7 +2,6 @@ import { NavLink, Route, useRouteMatch } from 'react-router-dom';
 import logout from '../../images/logout.svg'
 
 function Navigation({ loggedIn, onLoginClick }) {
-  const { path, url } = useRouteMatch();
   return (
     <>
       <Route exact path='/'>

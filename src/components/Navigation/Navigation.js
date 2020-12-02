@@ -1,4 +1,4 @@
-import { NavLink, Route, useRouteMatch } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import logout from '../../images/logout.svg'
 
 function Navigation({ loggedIn, onLoginClick }) {
@@ -13,7 +13,7 @@ function Navigation({ loggedIn, onLoginClick }) {
       <Route exact path='/saved-news'>
         <NavLink exact to='/' className='header__link header-logged__link' activeClassName='header-logged__link-active'>Главная</NavLink>
         <NavLink exact to='/saved-news' className='header__link header-logged__link' activeClassName='header-logged__link-active'>Сохраненные статьи</NavLink>
-        <button className='header__button header-logged__button'>Грета<img src={logout}></img></button>
+        <button className='header__button header-logged__button'>Грета<img src={logout} alt=''></img></button>
       </Route>
     </>
 

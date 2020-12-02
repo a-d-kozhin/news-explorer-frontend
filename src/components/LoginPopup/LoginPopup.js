@@ -10,10 +10,10 @@ function LoginPopup({ isOpen, title, name, onClose, redirect, onSubmit }) {
       onSubmit={onSubmit}
     >
       <label className='popup__label' htmlFor='email'>Email</label>
-      <input required type='text' type='email' id='email' className='popup__input' placeholder='Введите почту' />
+      <input required type='email' id='email' className='popup__input' placeholder='Введите почту' />
       <span id="email-input-error" className="popup__error">Текст ошибки инпута</span>
       <label className='popup__label' htmlFor="password">Password</label>
-      <input required type='text' type='text' id='password' className='popup__input' placeholder='Введите пароль' />
+      <input required type='text' id='password' className='popup__input' placeholder='Введите пароль' />
       <span id="password-input-error" className="popup__error">Текст ошибки инпута</span>
       <span id="login-form-error" className="popup__error popup__form-error">Текст ошибки формы</span>
       <button

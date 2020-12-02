@@ -20,8 +20,8 @@
 .article__image {
   height: 196px;
   width: 100%;
-  background-position: center center;
-  background-size: cover;
+  object-position: center center;
+  object-fit: cover;
 }
 
 .article__date {

@@ -21,9 +21,9 @@ function NewsCard() {
           <button className='article__icon article__save-btn' onClick={addMarkedClass}></button>
         </div>
       }
-      <div className='article__image' style={{ backgroundImage: `url(${sampleImage})` }} />
+      <img className='article__image' src={sampleImage} alt='Здесь должна быть картинка статьи'/>
       <div className='article__wrapper'>
-        <a className='article__link' href='#' target='_blank'>
+        <a className='article__link' href='https://yandex.ru' target='blank'>
           <p className='article__date'>2 августа, 2019</p>
           <h3 className='article__title'>Национальное достояние – парки</h3>
           <p className='article__text'>В 2016 году Америка отмечала важный юбилей: сто лет назад здесь начала складываться система национальных парков – охраняемых территорий, где и сегодня каждый может приобщиться к природе.</p>

@@ -12,10 +12,10 @@ function Footer() {
         </div>
         <div className='footer__iconlinks'>
           <a className='footer__link' href='https://github.com/a-d-kozhin'>
-            <img className='footer__link_type_icon' src={git} />
+            <img className='footer__link_type_icon' src={git} alt='Здесь должна быть ссылка на гитхаб'/>
           </a>
           <a className='footer__link' href='https://facebook.com'>
-            <img className='footer__link_type_icon' src={fb} />
+            <img className='footer__link_type_icon' src={fb} alt='Здесь должна быть ссылка на фейсбук'/>
           </a>
         </div>
       </div>

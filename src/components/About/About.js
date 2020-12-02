@@ -3,7 +3,7 @@ import aboutPhoto from '../../images/about-photo.png';
 function About() {
   return (
     <section className='about'>
-      <img src={aboutPhoto} className='about__photo'></img>
+      <img src={aboutPhoto} className='about__photo' alt='Здесь должно быть фото автора'></img>
       <div className='about__wrapper'>
         <h3 className='about__header'>Об авторе</h3>
         <p className='about__text'>

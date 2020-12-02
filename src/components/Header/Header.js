@@ -27,7 +27,7 @@ function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick }) {
         <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>
         </div>
         <img className='header__menu-icon' onClick={onMenuClick}
-          src={getMenuIcon()} />
+          src={getMenuIcon()} alt='Здесь должна быть иконка меню'/>
         <nav className={`${mobileMenuIsClosed ? 'navbar-mobile' : 'navbar-mobile-opened'}`}>
           <div className='navbar-mobile__container'>
             <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>

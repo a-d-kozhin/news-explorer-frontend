@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RegisterPopup from '../RegisterPopup/RegisterPopup';
 import Preloader from '../Preloader/Preloader';
+import * as MainApi from '../../utils/MainApi';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -20,6 +21,7 @@ function App() {
   const [isRegisterPopupOpen, setRegisterPopupOpen] = useState(false);
   const [isInfoPopupOpen, setInfoPopupOpen] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
+  const [RegisterErrorMessage, setRegisterErrorMessage] = useState('');
 
   function handleMobileMenuClick() {
     setMobileMenu(!mobileMenuIsClosed);
@@ -34,6 +36,7 @@ function App() {
       document.querySelector('.popup_opened').classList.remove('popup_opened');
       setLoginPopupOpen(false);
       setRegisterPopupOpen(false);
+      setInfoMessage('');
     }
   }
 
@@ -54,6 +57,25 @@ function App() {
     setInfoMessage('Пользователь успешно зарегистрирован!');
   }
 
+  const onRegister = (email, password, name) => {
+    return MainApi
+      .register(email, password, name)
+      .then((res) => {
+        if (res.statusCode === 201) {
+          closeAllPopups()
+          setInfoMessage('Вы успешно зарегистрировались! 🔥')
+          setRegisterPopupOpen(false)
+          setInfoPopupOpen(true)
+        }
+        if (res.statusCode === 409) {
+          setRegisterErrorMessage(`${res.message} 😔`)
+        }
+        if (!res.ok) {
+          setRegisterErrorMessage(res.validation.body.message)
+        }
+      })
+  };
+
   return (
     <div className='project'>
       <div className='page'>
@@ -66,15 +88,16 @@ function App() {
         <RegisterPopup
           isOpen={isRegisterPopupOpen}
           title='Регистрация'
-          name='register'
+          formName='register'
           onClose={closeAllPopups}
           redirect={redirectToLogin}
-          onSubmit={onSubmit}
+          onRegister={onRegister}
+          error={RegisterErrorMessage}
         />
         <LoginPopup
           isOpen={isLoginPopupOpen}
           title='Вход'
-          name='login'
+          formName='login'
           onClose={closeAllPopups}
           redirect={redirectToRegister}
           onSubmit={onSubmit}

@@ -4,7 +4,7 @@ import closeMenuMobileWhite from '../../images/close-white-mobile.svg';
 import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick }) {
+function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick, onLogOut }) {
 
   const path = useLocation().pathname;
 
@@ -24,7 +24,7 @@ function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick }) {
       <header className={`${path === '/' ? 'header ' : 'header header-logged'}`}>
         <Link to='/' className={getLogoClassname()}>News Explorer</Link>
         <div className='header__navbar'>
-        <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>
+        <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick} onLogOut={onLogOut}></Navigation>
         </div>
         <img className='header__menu-icon' onClick={onMenuClick}
           src={getMenuIcon()} alt='Здесь должна быть иконка меню'/>

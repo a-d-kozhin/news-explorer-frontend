@@ -27,20 +27,12 @@ export const authorize = (email, password) => {
     .then((res) => {
       if (res.token) {
         localStorage.setItem('jwt', res.token);
+        localStorage.setItem('name', res.user.name);
+        localStorage.setItem('email', res.user.email);
+        localStorage.setItem('_id', res.user._id);
         return res;
       } else {
         return res;
       }
     })
 };
-
-// export const getContent = (token) => {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: 'GET',
-//     headers: {
-//       ...headers,
-//       'Authorization': `Bearer ${token}`,
-//     }
-//   })
-//     .then(res => res.json())
-// };

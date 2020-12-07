@@ -36,3 +36,20 @@ export const authorize = (email, password) => {
       }
     })
 };
+
+export const saveArticle = (keyword, title, text, date, source, link, image) => {
+  return fetch(`${BASE_URL}/articles`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({ keyword, title, text, date, source, link, image })
+  })
+    .then((response => response.json()))
+};
+
+export const deleteArticle = (articleID) => {
+  return fetch(`${BASE_URL}/articles/${articleID}`, {
+    method: 'DELETE',
+    headers: headers,
+  })
+    .then((response => response.json()))
+};

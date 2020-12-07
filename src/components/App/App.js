@@ -76,13 +76,6 @@ function App() {
     setIsValid(target.closest('form').checkValidity());
   }
 
-  function onSubmit(evt) {
-    evt.preventDefault();
-    closeAllPopups();
-    setInfoPopupOpen(true);
-    setInfoMessage('Пользователь успешно зарегистрирован!');
-  }
-
   const onRegister = (email, password, name) => {
     return MainApi
       .register(email, password, name)
@@ -125,7 +118,7 @@ function App() {
     localStorage.removeItem('email');
     localStorage.removeItem('_id');
     setLoggedIn(false);
-    setCurrentUser({ email: '', _id: '', name: ''});
+    setCurrentUser({ email: '', _id: '', name: '' });
   };
 
   const onSearch = (keyword) => {
@@ -201,9 +194,18 @@ function App() {
 
         <Switch>
           <Route exact path='/'>
-            <SearchForm onSearch={onSearch} setPreloaderRunning={setPreloaderRunning} />
+            <SearchForm
+              onSearch={onSearch}
+              setPreloaderRunning={setPreloaderRunning}
+            />
             <Preloader preloaderRunning={preloaderRunning} />
-            {articlesArray.length > 0 && <SearchResults articlesArray={articlesArray} articlesCount={articlesCount} setArticlesCount={setArticlesCount} loggedIn={loggedIn}/>}
+            {articlesArray.length > 0 &&
+              <SearchResults
+                articlesArray={articlesArray}
+                articlesCount={articlesCount}
+                setArticlesCount={setArticlesCount}
+                loggedIn={loggedIn}
+              />}
             <About />
           </Route>
 

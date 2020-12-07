@@ -1,7 +1,6 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/font.css);
 @import url(../src/components/SearchForm/SearchForm.css);
-@import url(../src/components/Main/Main.css);
 @import url(../src/components/About/About.css);
 @import url(../src/components/Footer/Footer.css);
 @import url(../src/components/SearchResults/SearchResults.css);

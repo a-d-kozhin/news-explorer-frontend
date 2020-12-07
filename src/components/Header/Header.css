@@ -145,6 +145,7 @@
     margin: 0 40px 0 16px;
     cursor: pointer;
   }
+
   .header-logged__link {
     color: #1A1B22;
   }
@@ -156,7 +157,18 @@
   }
 
   .header-logged__button:hover {
+    transition: all .3s ease-in;
     border: 1px solid #1A1B22;
+  }
+
+  .header-not-logged__button:hover {
+    opacity: .75;
+    transition: all .3s ease-in;
+  }
+
+  .header__link:hover {
+    opacity: .75;
+    transition: all .3s ease-in;
   }
 
   .header__link-active::after {

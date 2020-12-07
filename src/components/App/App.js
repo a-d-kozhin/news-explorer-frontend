@@ -1,4 +1,5 @@
 import './App.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import LoginPopup from '../LoginPopup/LoginPopup';
@@ -17,7 +18,7 @@ import { getArticles } from '../../utils/NewsApi';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({ name: '', email: '', _id: '' });
   const [mobileMenuIsClosed, setMobileMenu] = useState(true);
   const [isLoginPopupOpen, setLoginPopupOpen] = useState(false);
   const [isRegisterPopupOpen, setRegisterPopupOpen] = useState(false);
@@ -149,79 +150,82 @@ function App() {
   }, loggedIn);
 
   return (
-    <div className='project'>
-      <div className='page'>
-        <InfoPopup
-          text={infoMessage}
-          isOpen={isInfoPopupOpen}
-          onClose={closeAllPopups}
-          redirect={redirectToLogin}
-        />
-        <RegisterPopup
-          isOpen={isRegisterPopupOpen}
-          title='Регистрация'
-          formName='register'
-          onClose={closeAllPopups}
-          redirect={redirectToLogin}
-          onRegister={onRegister}
-          submitErrorMessage={submitErrorMessage}
-          values={values}
-          errors={errors}
-          isValid={isValid}
-          onInputChange={onInputChange}
-        />
-        <LoginPopup
-          isOpen={isLoginPopupOpen}
-          title='Вход'
-          formName='login'
-          onClose={closeAllPopups}
-          redirect={redirectToRegister}
-          onLogin={onLogin}
-          submitErrorMessage={submitErrorMessage}
-          values={values}
-          errors={errors}
-          isValid={isValid}
-          onInputChange={onInputChange}
-        />
+    <CurrentUserContext.Provider value={currentUser}>
 
-        <Header
-          mobileMenuIsClosed={mobileMenuIsClosed}
-          onLoginClick={handleLoginClick}
-          onLogOut={onLogOut}
-          onMenuClick={handleMobileMenuClick}
-          loggedIn={loggedIn}
-        />
+      <div className='project'>
+        <div className='page'>
+          <InfoPopup
+            text={infoMessage}
+            isOpen={isInfoPopupOpen}
+            onClose={closeAllPopups}
+            redirect={redirectToLogin}
+          />
+          <RegisterPopup
+            isOpen={isRegisterPopupOpen}
+            title='Регистрация'
+            formName='register'
+            onClose={closeAllPopups}
+            redirect={redirectToLogin}
+            onRegister={onRegister}
+            submitErrorMessage={submitErrorMessage}
+            values={values}
+            errors={errors}
+            isValid={isValid}
+            onInputChange={onInputChange}
+          />
+          <LoginPopup
+            isOpen={isLoginPopupOpen}
+            title='Вход'
+            formName='login'
+            onClose={closeAllPopups}
+            redirect={redirectToRegister}
+            onLogin={onLogin}
+            submitErrorMessage={submitErrorMessage}
+            values={values}
+            errors={errors}
+            isValid={isValid}
+            onInputChange={onInputChange}
+          />
 
-        <Switch>
-          <Route exact path='/'>
-            <SearchForm
-              onSearch={onSearch}
-              setPreloaderRunning={setPreloaderRunning}
-            />
-            <Preloader preloaderRunning={preloaderRunning} />
-            {articlesArray.length > 0 &&
-              <SearchResults
-                articlesArray={articlesArray}
-                articlesCount={articlesCount}
-                setArticlesCount={setArticlesCount}
+          <Header
+            mobileMenuIsClosed={mobileMenuIsClosed}
+            onLoginClick={handleLoginClick}
+            onLogOut={onLogOut}
+            onMenuClick={handleMobileMenuClick}
+            loggedIn={loggedIn}
+          />
+
+          <Switch>
+            <Route exact path='/'>
+              <SearchForm
+                onSearch={onSearch}
+                setPreloaderRunning={setPreloaderRunning}
+              />
+              <Preloader preloaderRunning={preloaderRunning} />
+              {articlesArray.length > 0 &&
+                <SearchResults
+                  articlesArray={articlesArray}
+                  articlesCount={articlesCount}
+                  setArticlesCount={setArticlesCount}
+                  loggedIn={loggedIn}
+                />}
+              <About />
+            </Route>
+
+            <Route exact path='/saved-news'>
+              <ProtectedRoute
+                component={SavedNews}
                 loggedIn={loggedIn}
-              />}
-            <About />
-          </Route>
+              >
+              </ProtectedRoute>
+            </Route>
 
-          <Route exact path='/saved-news'>
-            <ProtectedRoute
-              component={SavedNews}
-              loggedIn={loggedIn}
-            >
-            </ProtectedRoute>
-          </Route>
+          </Switch>
 
-        </Switch>
-
-        <Footer />
+          <Footer />
+        </div>
       </div>
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 

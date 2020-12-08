@@ -49,6 +49,8 @@
 
 .footer__link:hover {
   cursor: pointer;
+  opacity: .75;
+  transition: all .3s ease-in;
 }
 
 .footer__copyright {
@@ -84,5 +86,11 @@
     position: relative;
     left: 0;
     top: 12px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .footer {
+    padding: 30px 100px;
   }
 }

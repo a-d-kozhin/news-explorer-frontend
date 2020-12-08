@@ -6,6 +6,7 @@ import LoginPopup from '../LoginPopup/LoginPopup';
 import InfoPopup from '../InfoPopup/InfoPopup';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import SearchResults from '../SearchResults/SearchResults';
+import NoFoundNews from '../NoFoundNews/NoFoundNews';
 import About from '../About/About';
 import SearchForm from '../SearchForm/SearchForm';
 import SavedNews from '../SavedNews/SavedNews';
@@ -33,6 +34,7 @@ function App() {
   const [articlesCount, setArticlesCount] = useState(3);
   const [keyword, setKeyword] = useState('')
   const [savedArticles, setSavedArticles] = useState([]);
+  const [noNewsFound, setNoNewsFound] = useState(false);
 
   function handleMobileMenuClick() {
     setMobileMenu(!mobileMenuIsClosed);
@@ -88,7 +90,6 @@ function App() {
     let token = localStorage.getItem('jwt');
     return MainApi
       .deleteArticle(articleID, token)
-      .then((res) => console.log(res))
   }
 
   // form validation
@@ -126,12 +127,10 @@ function App() {
       .then((res) => {
         if (res.user) {
           closeAllPopups();
-          console.log(res.user);
-          setCurrentUser({ name: res.user.name, email: res.user.name, _id: res.user._id })
+          setCurrentUser({ name: res.user.name, email: res.user.email, _id: res.user._id })
           tokenCheck();
         }
         else {
-          console.log(res)
           setSubmitErrorMessage(`${res.message} 😔`)
         }
       })
@@ -148,12 +147,20 @@ function App() {
   };
 
   const onSearch = (keyword) => {
+    setNoNewsFound(false);
     setArticlesCount(3);
     setPreloaderRunning(true);
     getArticles(keyword)
       .then(res => {
-        setArticlesArray(res.articles);
-        return res.articles
+        if (res.articles.length === 0) {
+          setNoNewsFound(true);
+          setArticlesArray([]);
+          return
+        }
+        else {
+          setArticlesArray(res.articles);
+          return res.articles
+        }
       })
       .then(() => setTimeout(setPreloaderRunning, 500, false))
   }
@@ -228,6 +235,7 @@ function App() {
                 setKeyword={setKeyword}
               />
               <Preloader preloaderRunning={preloaderRunning} />
+              <NoFoundNews noNewsFound={noNewsFound} />
               {articlesArray.length > 0 &&
                 <SearchResults
                   articlesArray={articlesArray}
@@ -235,7 +243,8 @@ function App() {
                   setArticlesCount={setArticlesCount}
                   loggedIn={loggedIn}
                   handleArticleSave={handleArticleSave}
-                />}
+                />
+              }
               <About />
             </Route>
 

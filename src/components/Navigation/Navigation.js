@@ -23,7 +23,7 @@ function Navigation({ loggedIn, onLoginClick, onLogOut }) {
       <Route exact path='/saved-news'>
         <NavLink exact to='/' className='header__link header-logged__link' activeClassName='header-logged__link-active'>Главная</NavLink>
         <NavLink exact to='/saved-news' className='header__link header-logged__link' activeClassName='header-logged__link-active'>Сохраненные статьи</NavLink>
-        <button className='header__button header-logged__button'>{currentUser.name}<img src={logoutDarkPic} alt=''/></button>
+        <button className='header__button header-logged__button' onClick={onLogOut}>{currentUser.name}<img src={logoutDarkPic} alt=''/></button>
       </Route>
     </>
 

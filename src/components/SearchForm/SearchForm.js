@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-function SearchForm({ onSearch, setPreloaderRunning }) {
-
-  const [keyword, setKeyword] = useState('')
+function SearchForm({ onSearch, setPreloaderRunning, keyword, setKeyword }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();

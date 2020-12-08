@@ -30,7 +30,7 @@ function Header({ mobileMenuIsClosed, onMenuClick, loggedIn, onLoginClick, onLog
           src={getMenuIcon()} alt='Здесь должна быть иконка меню'/>
         <nav className={`${mobileMenuIsClosed ? 'navbar-mobile' : 'navbar-mobile-opened'}`}>
           <div className='navbar-mobile__container'>
-            <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick}></Navigation>
+            <Navigation loggedIn={loggedIn} onLoginClick={onLoginClick} onLogOut={onLogOut}></Navigation>
           </div>
         </nav>
       </header>

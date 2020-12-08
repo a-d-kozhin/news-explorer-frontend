@@ -12,7 +12,7 @@
   opacity: 0;
   transition: visibility .7s, opacity .7s linear;
   -moz-transition: all .7s;
-  z-index: 2;
+  z-index: 4;
 }
 
 .popup_opened {

@@ -31,6 +31,8 @@ function App() {
   const [preloaderRunning, setPreloaderRunning] = useState(false);
   const [articlesArray, setArticlesArray] = useState([]);
   const [articlesCount, setArticlesCount] = useState(3);
+  const [keyword, setKeyword] = useState('')
+  const [savedArticles, setSavedArticles] = useState([]);
 
   function handleMobileMenuClick() {
     setMobileMenu(!mobileMenuIsClosed);
@@ -65,6 +67,28 @@ function App() {
   function redirectToLogin() {
     closeAllPopups();
     setLoginPopupOpen(!isLoginPopupOpen);
+  }
+
+  function handleArticleSave(article) {
+    let token = localStorage.getItem('jwt');
+    return MainApi
+      .saveArticle({ ...article, keyword }, token)
+  }
+  function getSavedArticles() {
+    let token = localStorage.getItem('jwt');
+    return MainApi
+      .getUserArticles(token)
+      .then((articlesArray) => {
+        const savedArticlesArray = articlesArray.filter(article => article.owner === currentUser._id);
+        setSavedArticles(savedArticlesArray);
+      });
+  }
+
+  function handleArticleDeletion(articleID) {
+    let token = localStorage.getItem('jwt');
+    return MainApi
+      .deleteArticle(articleID, token)
+      .then((res) => console.log(res))
   }
 
   // form validation
@@ -120,6 +144,7 @@ function App() {
     localStorage.removeItem('_id');
     setLoggedIn(false);
     setCurrentUser({ email: '', _id: '', name: '' });
+    setSavedArticles([]);
   };
 
   const onSearch = (keyword) => {
@@ -128,7 +153,6 @@ function App() {
     getArticles(keyword)
       .then(res => {
         setArticlesArray(res.articles);
-        console.log(articlesArray);
         return res.articles
       })
       .then(() => setTimeout(setPreloaderRunning, 500, false))
@@ -147,7 +171,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  }, loggedIn);
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -200,6 +224,8 @@ function App() {
               <SearchForm
                 onSearch={onSearch}
                 setPreloaderRunning={setPreloaderRunning}
+                keyword={keyword}
+                setKeyword={setKeyword}
               />
               <Preloader preloaderRunning={preloaderRunning} />
               {articlesArray.length > 0 &&
@@ -208,6 +234,7 @@ function App() {
                   articlesCount={articlesCount}
                   setArticlesCount={setArticlesCount}
                   loggedIn={loggedIn}
+                  handleArticleSave={handleArticleSave}
                 />}
               <About />
             </Route>
@@ -216,6 +243,10 @@ function App() {
               <ProtectedRoute
                 component={SavedNews}
                 loggedIn={loggedIn}
+                savedArticles={savedArticles}
+                handleArticleDeletion={handleArticleDeletion}
+                getSavedArticles={getSavedArticles}
+                keyword={keyword}
               >
               </ProtectedRoute>
             </Route>

@@ -37,19 +37,36 @@ export const authorize = (email, password) => {
     })
 };
 
-export const saveArticle = (keyword, title, text, date, source, link, image) => {
+export const getUserArticles = (token) => {
   return fetch(`${BASE_URL}/articles`, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify({ keyword, title, text, date, source, link, image })
+    method: 'GET',
+    headers: {
+      ...headers,
+      'Authorization': `Bearer ${token}`,
+    }
   })
     .then((response => response.json()))
 };
 
-export const deleteArticle = (articleID) => {
+export const saveArticle = (article, token) => {
+  return fetch(`${BASE_URL}/articles`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(article)
+  })
+    .then((response => response.json()))
+};
+
+export const deleteArticle = (articleID, token) => {
   return fetch(`${BASE_URL}/articles/${articleID}`, {
     method: 'DELETE',
-    headers: headers,
+    headers: {
+      ...headers,
+      'Authorization': `Bearer ${token}`,
+    }
   })
     .then((response => response.json()))
 };

@@ -15,7 +15,7 @@ function SearchForm({ onSearch, setPreloaderRunning, keyword, setKeyword }) {
       </div>
       <form className='search-form__form' onSubmit={handleSubmit}>
         <div className="search-form__wrapper">
-          <input className='search-form__input' placeholder='Политика' onChange={(evt) => setKeyword(evt.target.value)} required></input>
+          <input className='search-form__input' placeholder='Политика' onChange={(evt) => setKeyword(evt.target.value.trim())} required></input>
           <button className='search-form__submit' type='submit'>Искать</button>
         </div>
       </form>

@@ -4,17 +4,27 @@ export const headers = {
   'Content-Type': 'application/json'
 };
 
+function _handleResponse(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    return Promise.reject(`Response is not OK: ${res.status}`);
+  }
+}
+
+// обработка ошибок
+function _handleError(err) {
+  return Promise.reject(`An error occured: ${err.message}`)
+}
+
 export const register = (email, password, name) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({ email, password, name })
   })
-    .then((response) => response.json())
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
+    .then(res => _handleResponse(res))
+    .catch(err => _handleError)
 };
 
 export const authorize = (email, password) => {
@@ -23,18 +33,20 @@ export const authorize = (email, password) => {
     headers: headers,
     body: JSON.stringify({ email, password })
   })
-    .then((response => response.json()))
+    .then(res => _handleResponse(res))
     .then((res) => {
       if (res.token) {
         localStorage.setItem('jwt', res.token);
         localStorage.setItem('name', res.user.name);
         localStorage.setItem('email', res.user.email);
         localStorage.setItem('_id', res.user._id);
+        localStorage.setItem('loggedIn', true);
         return res;
       } else {
         return res;
       }
     })
+    .catch(err => _handleError)
 };
 
 export const getUserArticles = (token) => {
@@ -45,7 +57,8 @@ export const getUserArticles = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-    .then((response => response.json()))
+    .then(res => _handleResponse(res))
+    .catch(err => _handleError)
 };
 
 export const saveArticle = (article, token) => {
@@ -57,7 +70,8 @@ export const saveArticle = (article, token) => {
     },
     body: JSON.stringify(article)
   })
-    .then((response => response.json()))
+    .then(res => _handleResponse(res))
+    .catch(err => _handleError)
 };
 
 export const deleteArticle = (articleID, token) => {
@@ -68,5 +82,6 @@ export const deleteArticle = (articleID, token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-    .then((response => response.json()))
+    .then(res => _handleResponse(res))
+    .catch(err => _handleError)
 };

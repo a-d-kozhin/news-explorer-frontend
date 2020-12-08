@@ -6,7 +6,7 @@ function SavedNews({ savedArticles, loggedIn, handleArticleDeletion, getSavedArt
 
   useEffect(() => {
     getSavedArticles();
-  }, [savedArticles]);
+  }, [savedArticles.length]);
 
   return (<>
   <div className="saved__news">
@@ -26,7 +26,7 @@ function SavedNews({ savedArticles, loggedIn, handleArticleDeletion, getSavedArt
           article={article}
           articleId={article._id}
           handleArticleDeletion={handleArticleDeletion}
-          keyword={article.keyword.trim().charAt(0).toUpperCase() + article.keyword.trim().slice(1)}
+          keyword={article.keyword.charAt(0).toUpperCase() + article.keyword.slice(1)}
         />
       ))}
     </ul>

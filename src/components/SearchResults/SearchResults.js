@@ -2,7 +2,7 @@ import NewsCard from '../NewsCard/NewsCard';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedIn, handleArticleSave }) {
+function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedIn, handleArticleSave, handleArticleDeletion}) {
 
   const path = useLocation().pathname;
 
@@ -21,8 +21,9 @@ function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedI
                 link={article.url}
                 loggedIn={loggedIn}
                 handleArticleSave={handleArticleSave}
+                handleArticleDeletion={handleArticleDeletion}
                 article={article}
-                _id={article._id}
+                articleId={article._id}
               />
             ))}
           </ul>

@@ -18,7 +18,7 @@ import * as MainApi from '../../utils/MainApi';
 import { getArticles } from '../../utils/NewsApi';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.loggedIn);
   const [currentUser, setCurrentUser] = useState({ name: '', email: '', _id: '' });
   const [mobileMenuIsClosed, setMobileMenu] = useState(true);
   const [isLoginPopupOpen, setLoginPopupOpen] = useState(false);
@@ -75,7 +75,14 @@ function App() {
     let token = localStorage.getItem('jwt');
     return MainApi
       .saveArticle({ ...article, keyword }, token)
+      .then((res) => console.log(res))
   }
+  function handleArticleDeletion(articleID) {
+    let token = localStorage.getItem('jwt');
+    return MainApi
+      .deleteArticle(articleID, token)
+  }
+
   function getSavedArticles() {
     let token = localStorage.getItem('jwt');
     return MainApi
@@ -86,11 +93,6 @@ function App() {
       });
   }
 
-  function handleArticleDeletion(articleID) {
-    let token = localStorage.getItem('jwt');
-    return MainApi
-      .deleteArticle(articleID, token)
-  }
 
   // form validation
   function onInputChange(event) {
@@ -141,6 +143,7 @@ function App() {
     localStorage.removeItem('name');
     localStorage.removeItem('email');
     localStorage.removeItem('_id');
+    localStorage.removeItem('loggedIn');
     setLoggedIn(false);
     setCurrentUser({ email: '', _id: '', name: '' });
     setSavedArticles([]);
@@ -243,6 +246,7 @@ function App() {
                   setArticlesCount={setArticlesCount}
                   loggedIn={loggedIn}
                   handleArticleSave={handleArticleSave}
+                  handleArticleDeletion={handleArticleDeletion}
                 />
               }
               <About />

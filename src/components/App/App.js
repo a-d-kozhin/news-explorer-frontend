@@ -33,6 +33,7 @@ function App() {
   const [articlesArray, setArticlesArray] = useState([]);
   const [articlesCount, setArticlesCount] = useState(3);
   const [keyword, setKeyword] = useState('')
+  const [keywords, setKeywords] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
   const [noNewsFound, setNoNewsFound] = useState(false);
 
@@ -75,12 +76,14 @@ function App() {
     let token = localStorage.getItem('jwt');
     return MainApi
       .saveArticle({ ...article, keyword }, token)
-      .then((res) => console.log(res))
+      .then((res) => res._id)
   }
+
   function handleArticleDeletion(articleID) {
     let token = localStorage.getItem('jwt');
     return MainApi
       .deleteArticle(articleID, token)
+      .then(() => getSavedArticles())
   }
 
   function getSavedArticles() {
@@ -90,7 +93,17 @@ function App() {
       .then((articlesArray) => {
         const savedArticlesArray = articlesArray.filter(article => article.owner === currentUser._id);
         setSavedArticles(savedArticlesArray);
-      });
+        // console.log(savedArticlesArray)
+        localStorage.setItem('saved', JSON.stringify(savedArticlesArray));
+        const keywordsArray = savedArticlesArray.map((item) => item.keyword);
+        setKeywords(keywordsArray);
+        console.log(keywords);
+        localStorage.setItem('keywords', keywords)
+        let b = localStorage.getItem('keywords')
+        // console.log(b)
+        // let a = localStorage.getItem('saved')
+        // console.log(a, JSON.parse(a))
+      })
   }
 
 
@@ -144,6 +157,8 @@ function App() {
     localStorage.removeItem('email');
     localStorage.removeItem('_id');
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('saved');
+    localStorage.removeItem('keywords');
     setLoggedIn(false);
     setCurrentUser({ email: '', _id: '', name: '' });
     setSavedArticles([]);
@@ -161,6 +176,7 @@ function App() {
           return
         }
         else {
+          console.log(res.articles);
           setArticlesArray(res.articles);
           return res.articles
         }
@@ -176,6 +192,7 @@ function App() {
       let _id = localStorage.getItem('_id');
       setCurrentUser({ name, email, _id });
       setLoggedIn(true);
+      getSavedArticles(jwt);
     }
   };
 

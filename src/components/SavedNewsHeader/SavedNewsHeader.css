@@ -33,6 +33,7 @@
   line-height: 24px;
   color: #1A1B22;
   margin: 0;
+  display: inline;
 }
 
 .saved-news-header__accent {

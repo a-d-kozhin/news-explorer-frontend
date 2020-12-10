@@ -2,6 +2,9 @@ import { useState } from 'react';
 import sampleImage from '../../images/article-image-sample.png';
 import { useLocation } from 'react-router-dom';
 import brokenImg from '../../images/no-pic.png'
+import 'moment/locale/ru';
+
+const moment = require('moment');
 
 function NewsCard({ image, date, title, text, source, link, loggedIn, articleId, handleArticleSave, handleArticleDeletion, keyword }) {
   const path = useLocation().pathname;
@@ -40,20 +43,20 @@ function NewsCard({ image, date, title, text, source, link, loggedIn, articleId,
           {isSaved ?
             <button className='article__icon article__save-btn_marked' onClick={deleteArticle} disabled={!loggedIn}></button>
             :
-            <button className='article__icon article__save-btn' onClick={saveArticle} disabled={!loggedIn}></button>
+            <button className={`article__icon article__save-btn ${loggedIn ? '' : 'article__save-btn_type_not-logged'}`} onClick={saveArticle} disabled={!loggedIn}></button>
           }
         </div>
       }
       <img className='article__image' src={image} alt='Здесь должна быть картинка статьи' />
       <div className='article__wrapper'>
         <a className='article__link' href={link} target='blank'>
-          <p className='article__date'>{date}</p>
+          <p className='article__date'>{moment(date).format('LL').slice(0,-3)}</p>
           <h3 className='article__title'>{title}</h3>
           <p className='article__text'>{text}</p>
           <p className='article__source'>{source}</p>
         </a>
       </div>
-    </li>
+    </li> 
   );
 }
 

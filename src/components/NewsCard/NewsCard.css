@@ -140,7 +140,7 @@
   transition: all .3s linear;
 }
 
-.article__save-btn:hover::before {
+.article__save-btn_type_not-logged:hover::before {
   content: 'Войдите, чтобы сохранять статьи';
   height: 40px;
   position: absolute;
@@ -236,7 +236,7 @@
     height: 276px;
   }
   .article__source {
-    margin-top: 40px;
+    margin-top: 33px;
   }
   .article__image {
     height: 272px;

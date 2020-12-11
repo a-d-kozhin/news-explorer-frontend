@@ -5,11 +5,7 @@ export const headers = {
 };
 
 function _handleResponse(res) {
-  if (res.ok) {
     return res.json();
-  } else {
-    return Promise.reject(`Response is not OK: ${res.status}`);
-  }
 }
 
 // обработка ошибок

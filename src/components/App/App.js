@@ -72,11 +72,25 @@ function App() {
     setLoginPopupOpen(!isLoginPopupOpen);
   }
 
+  function getSavedArticles() {
+    let token = localStorage.getItem('jwt');
+    return MainApi
+      .getUserArticles(token)
+      .then((articlesArray) => {
+        const savedArticlesArray = articlesArray.filter(article => article.owner === currentUser._id);
+        setSavedArticles(savedArticlesArray);
+        localStorage.setItem('saved', JSON.stringify(savedArticlesArray));
+        const keywordsArray = savedArticlesArray.map((item) => item.keyword);
+        setKeywords(keywordsArray);
+        localStorage.setItem('keywords', keywords)
+      })
+  }
+
   function handleArticleSave(article) {
     let token = localStorage.getItem('jwt');
     return MainApi
       .saveArticle({ ...article, keyword }, token)
-      .then((res) => res._id)
+      .then(() => getSavedArticles())
   }
 
   function handleArticleDeletion(articleID) {
@@ -86,28 +100,6 @@ function App() {
       .then(() => getSavedArticles())
   }
 
-  function getSavedArticles() {
-    let token = localStorage.getItem('jwt');
-    return MainApi
-      .getUserArticles(token)
-      .then((articlesArray) => {
-        const savedArticlesArray = articlesArray.filter(article => article.owner === currentUser._id);
-        setSavedArticles(savedArticlesArray);
-        // console.log(savedArticlesArray)
-        localStorage.setItem('saved', JSON.stringify(savedArticlesArray));
-        const keywordsArray = savedArticlesArray.map((item) => item.keyword);
-        setKeywords(keywordsArray);
-        console.log(keywords);
-        localStorage.setItem('keywords', keywords)
-        let b = localStorage.getItem('keywords')
-        // console.log(b)
-        // let a = localStorage.getItem('saved')
-        // console.log(a, JSON.parse(a))
-      })
-  }
-
-
-  // form validation
   function onInputChange(event) {
     const target = event.target;
     const name = target.name;
@@ -122,15 +114,16 @@ function App() {
       .register(email, password, name)
       .then((res) => {
         if (res.statusCode === 201) {
-          closeAllPopups()
-          setInfoMessage('Вы успешно зарегистрировались! 🔥')
-          setRegisterPopupOpen(false)
-          setInfoPopupOpen(true)
+          setSubmitErrorMessage('');
+          closeAllPopups();
+          setInfoMessage('Вы успешно зарегистрировались! 🔥');
+          setRegisterPopupOpen(false);
+          setInfoPopupOpen(true);
         }
-        if (res.statusCode === 409) {
+        if (res.message === 'Пользователь с таким email уже есть') {
           setSubmitErrorMessage(`${res.message} 😔`)
         }
-        if (!res.ok) {
+        if (res.validation.body.message) {
           setSubmitErrorMessage(res.validation.body.message)
         }
       })
@@ -176,7 +169,6 @@ function App() {
           return
         }
         else {
-          console.log(res.articles);
           setArticlesArray(res.articles);
           return res.articles
         }

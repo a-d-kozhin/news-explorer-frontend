@@ -19,7 +19,6 @@ function RegisterPopup({
 
     onRegister(values.email, values.password, values.name)
       .then(() => onClose())
-      .catch((err) => console.log(err));
   };
 
   return (

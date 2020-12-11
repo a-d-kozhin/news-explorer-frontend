@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import sampleImage from '../../images/article-image-sample.png';
 import { useLocation } from 'react-router-dom';
-import brokenImg from '../../images/no-pic.png'
 import 'moment/locale/ru';
 
 const moment = require('moment');

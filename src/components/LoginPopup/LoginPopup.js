@@ -1,6 +1,4 @@
 import PopupWithForm from '../../components/PopupWithForm/PopupWithForm';
-import { useState, useCallback } from 'react';
-// import { useFormWithValidation } from '../FormHooks/FormHooks';
 
 function LoginPopup({
   isOpen,
@@ -17,10 +15,7 @@ function LoginPopup({
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    onLogin(values.email, values.password)
-      // .then(() => onClose())
-      .catch((err) => console.log(err));
+    onLogin(values.email, values.password);
   };
 
   return (

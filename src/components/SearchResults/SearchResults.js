@@ -1,10 +1,6 @@
 import NewsCard from '../NewsCard/NewsCard';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedIn, handleArticleSave, handleArticleDeletion}) {
-
-  const path = useLocation().pathname;
 
   return (
     <section className='search-results'>

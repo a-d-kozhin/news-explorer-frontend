@@ -1,8 +1,18 @@
-# Getting Started with Create React App
+# Дипломная работа Кожина Саши
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Как найти сайт
+- news-x.students.nomoreparties.co
+- www.news-x.students.nomoreparties.co
+- www.api.news-x.students.nomoreparties.co
+- api.news-x.students.nomoreparties.co
 
 ## Функционал
 - регистрация и авторизация пользователей
 - поиск статей через NewsApi
 - сохранение статей пользователями
+
+## Технологии
+- NodeJS
+- Express
+- React
+- MongoDB

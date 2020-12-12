@@ -18,6 +18,7 @@ import * as MainApi from '../../utils/MainApi';
 import { getArticles } from '../../utils/NewsApi';
 
 function App() {
+  const defaultArticlesCount = 3;
   const [loggedIn, setLoggedIn] = useState(localStorage.loggedIn);
   const [currentUser, setCurrentUser] = useState({ name: '', email: '', _id: '' });
   const [mobileMenuIsClosed, setMobileMenu] = useState(true);
@@ -31,7 +32,7 @@ function App() {
   const [isValid, setIsValid] = useState(false);
   const [preloaderRunning, setPreloaderRunning] = useState(false);
   const [articlesArray, setArticlesArray] = useState([]);
-  const [articlesCount, setArticlesCount] = useState(3);
+  const [articlesCount, setArticlesCount] = useState(defaultArticlesCount);
   const [keyword, setKeyword] = useState('')
   const [keywords, setKeywords] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
@@ -73,7 +74,7 @@ function App() {
   }
 
   function getSavedArticles() {
-    let token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return MainApi
       .getUserArticles(token)
       .then((articlesArray) => {
@@ -87,14 +88,14 @@ function App() {
   }
 
   function handleArticleSave(article) {
-    let token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return MainApi
       .saveArticle({ ...article, keyword }, token)
       .then(() => getSavedArticles())
   }
 
   function handleArticleDeletion(articleID) {
-    let token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
     return MainApi
       .deleteArticle(articleID, token)
       .then(() => getSavedArticles())
@@ -159,7 +160,7 @@ function App() {
 
   const onSearch = (keyword) => {
     setNoNewsFound(false);
-    setArticlesCount(3);
+    setArticlesCount(defaultArticlesCount);
     setPreloaderRunning(true);
     getArticles(keyword)
       .then(res => {
@@ -177,14 +178,14 @@ function App() {
   }
 
   const tokenCheck = () => {
-    let jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      let name = localStorage.getItem('name');
-      let email = localStorage.getItem('email');
-      let _id = localStorage.getItem('_id');
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      const name = localStorage.getItem('name');
+      const email = localStorage.getItem('email');
+      const _id = localStorage.getItem('_id');
       setCurrentUser({ name, email, _id });
       setLoggedIn(true);
-      getSavedArticles(jwt);
+      getSavedArticles(token);
     }
   };
 

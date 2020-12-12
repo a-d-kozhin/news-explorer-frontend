@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import 'moment/locale/ru';
 
 const moment = require('moment');
 
-function NewsCard({ image, date, title, text, source, link, loggedIn, articleId, handleArticleSave, handleArticleDeletion, keyword }) {
+function NewsCard({ image, date, title, text, source, link, loggedIn, articleId, handleArticleSave, handleArticleDeletion, keyword, setRegisterPopupOpen, getSavedArticles }) {
   const path = useLocation().pathname;
 
   const articleObj = {
@@ -22,12 +22,21 @@ function NewsCard({ image, date, title, text, source, link, loggedIn, articleId,
     const myArticlesArray = JSON.parse(localStorage.getItem('saved'));
     const articleToDelete = myArticlesArray.find((item) => item.text === articleObj.text && item.title === articleObj.title);
     handleArticleDeletion(articleToDelete._id)
-    setSaved(!isSaved);
+      .then((res) => {
+        if (res.message) setSaved(!isSaved);
+      })
+      .catch(err => err.message);
   }
 
   function saveArticle() {
-    handleArticleSave(articleObj);
-    setSaved(!isSaved);
+    if (!loggedIn) setRegisterPopupOpen(true);
+    else {
+      handleArticleSave(articleObj)
+        .then((res) => {
+          if (res._id) setSaved(!isSaved);
+        })
+        .catch(err => err.message)
+    }
   }
 
   return (
@@ -44,7 +53,7 @@ function NewsCard({ image, date, title, text, source, link, loggedIn, articleId,
           {isSaved ?
             <button className='article__icon article__save-btn_marked' onClick={deleteArticle} disabled={!loggedIn}></button>
             :
-            <button className={`article__icon article__save-btn ${loggedIn ? '' : 'article__save-btn_type_not-logged'}`} onClick={saveArticle} disabled={!loggedIn}></button>
+            <button className={`article__icon article__save-btn ${loggedIn ? '' : 'article__save-btn_type_not-logged'}`} onClick={saveArticle}></button>
           }
         </div>
       }

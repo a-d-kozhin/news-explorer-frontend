@@ -21,7 +21,7 @@ function App() {
   const defaultArticlesCount = 3;
   const preloaderTimeout = 500;
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') === 'true');
   const [currentUser, setCurrentUser] = useState({ name: '', email: '', _id: '' });
   const [mobileMenuIsClosed, setMobileMenu] = useState(true);
   const [isLoginPopupOpen, setLoginPopupOpen] = useState(false);
@@ -83,21 +83,30 @@ function App() {
         setSavedArticles(savedArticlesArray);
         localStorage.setItem('saved', JSON.stringify(savedArticlesArray));
       })
+      .catch(err => err.message);
   }
 
   function handleArticleSave(article) {
     const token = localStorage.getItem('jwt');
     return MainApi
       .saveArticle({ ...article, keyword }, token)
-      .then(() => getSavedArticles())
-  }
+      .then((res) => {
+        getSavedArticles()
+        return res
+      })
+      .catch(err => err.message);
+    }
 
   function handleArticleDeletion(articleID) {
     const token = localStorage.getItem('jwt');
     return MainApi
       .deleteArticle(articleID, token)
-      .then(() => getSavedArticles())
-  }
+      .then((res) => {
+        getSavedArticles()
+        return res
+      })
+      .catch(err => err.message);
+    }
 
   function onInputChange(event) {
     const target = event.target;
@@ -126,6 +135,7 @@ function App() {
           setSubmitErrorMessage(res.validation.body.message)
         }
       })
+      .catch(err => err.message);
   };
 
   const onLogin = (email, password) => {
@@ -140,6 +150,7 @@ function App() {
           setSubmitErrorMessage(`${res.message} 😔`)
         }
       })
+      .catch(err => err.message);
   }
 
   const onLogOut = () => {
@@ -148,8 +159,6 @@ function App() {
     localStorage.removeItem('email');
     localStorage.removeItem('_id');
     localStorage.removeItem('loggedIn');
-    localStorage.removeItem('saved');
-    localStorage.removeItem('keyword');
     setLoggedIn(false);
     setCurrentUser({ email: '', _id: '', name: '' });
     setSavedArticles([]);
@@ -174,6 +183,16 @@ function App() {
         }
       })
       .then(() => setTimeout(setPreloaderRunning, preloaderTimeout, false))
+      .catch(err => err.message);
+  }
+
+  const setSearchedArticles = () => {
+    let searched = localStorage.getItem('searched');
+    let keyword = localStorage.getItem('keyword');
+    if (searched && keyword) {
+      setArticlesArray(JSON.parse(searched));
+      setKeyword(keyword);
+    }
   }
 
   const tokenCheck = () => {
@@ -185,20 +204,21 @@ function App() {
           let name = localStorage.getItem('name');
           let email = localStorage.getItem('email');
           let _id = localStorage.getItem('_id');
-          let searched = localStorage.getItem('searched');
-          let keyword = localStorage.getItem('keyword');
-          setCurrentUser({ name, email, _id});
-          setArticlesArray(JSON.parse(searched));
-          setKeyword(keyword);
+          setCurrentUser({ name, email, _id });
           setLoggedIn(true);
-          getSavedArticles(token);
+          getSavedArticles();
         })
+        .catch(err => err.message);
     }
   };
 
   useEffect(() => {
     tokenCheck();
   }, [loggedIn]);
+
+  useEffect(() => {
+    setSearchedArticles();
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -264,22 +284,25 @@ function App() {
                   loggedIn={loggedIn}
                   handleArticleSave={handleArticleSave}
                   handleArticleDeletion={handleArticleDeletion}
+                  setRegisterPopupOpen={setRegisterPopupOpen}
+                  savedArticles={savedArticles}
+                  getSavedArticles={getSavedArticles}
                 />
               }
               <About />
             </Route>
 
-            <Route exact path='/saved-news'>
-              <ProtectedRoute
-                component={SavedNews}
-                loggedIn={loggedIn}
-                savedArticles={savedArticles}
-                handleArticleDeletion={handleArticleDeletion}
-                getSavedArticles={getSavedArticles}
-                keyword={keyword}
-              >
-              </ProtectedRoute>
-            </Route>
+            <ProtectedRoute exact path='/saved-news'
+              component={SavedNews}
+              loggedIn={loggedIn}
+              savedArticles={savedArticles}
+              handleArticleDeletion={handleArticleDeletion}
+              getSavedArticles={getSavedArticles}
+              keyword={keyword}
+              setLoginPopupOpen={setLoginPopupOpen}
+              getSavedArticles={getSavedArticles}
+            >
+            </ProtectedRoute>
 
           </Switch>
 

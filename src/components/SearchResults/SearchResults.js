@@ -1,6 +1,6 @@
 import NewsCard from '../NewsCard/NewsCard';
 
-function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedIn, handleArticleSave, handleArticleDeletion}) {
+function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedIn, handleArticleSave, handleArticleDeletion, setRegisterPopupOpen, savedArticles, getSavedArticles}) {
 
   return (
     <section className='search-results'>
@@ -20,6 +20,8 @@ function SearchResults({ articlesArray, articlesCount, setArticlesCount, loggedI
                 handleArticleDeletion={handleArticleDeletion}
                 article={article}
                 articleId={article._id}
+                setRegisterPopupOpen={setRegisterPopupOpen}
+                savedArticles={savedArticles}
               />
             ))}
           </ul>

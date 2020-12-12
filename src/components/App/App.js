@@ -19,7 +19,9 @@ import { getArticles } from '../../utils/NewsApi';
 
 function App() {
   const defaultArticlesCount = 3;
-  const [loggedIn, setLoggedIn] = useState(localStorage.loggedIn);
+  const preloaderTimeout = 500;
+
+  const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({ name: '', email: '', _id: '' });
   const [mobileMenuIsClosed, setMobileMenu] = useState(true);
   const [isLoginPopupOpen, setLoginPopupOpen] = useState(false);
@@ -34,7 +36,6 @@ function App() {
   const [articlesArray, setArticlesArray] = useState([]);
   const [articlesCount, setArticlesCount] = useState(defaultArticlesCount);
   const [keyword, setKeyword] = useState('')
-  const [keywords, setKeywords] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
   const [noNewsFound, setNoNewsFound] = useState(false);
 
@@ -81,9 +82,6 @@ function App() {
         const savedArticlesArray = articlesArray.filter(article => article.owner === currentUser._id);
         setSavedArticles(savedArticlesArray);
         localStorage.setItem('saved', JSON.stringify(savedArticlesArray));
-        const keywordsArray = savedArticlesArray.map((item) => item.keyword);
-        setKeywords(keywordsArray);
-        localStorage.setItem('keywords', keywords)
       })
   }
 
@@ -136,7 +134,6 @@ function App() {
       .then((res) => {
         if (res.user) {
           closeAllPopups();
-          setCurrentUser({ name: res.user.name, email: res.user.email, _id: res.user._id })
           tokenCheck();
         }
         else {
@@ -152,7 +149,7 @@ function App() {
     localStorage.removeItem('_id');
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('saved');
-    localStorage.removeItem('keywords');
+    localStorage.removeItem('keyword');
     setLoggedIn(false);
     setCurrentUser({ email: '', _id: '', name: '' });
     setSavedArticles([]);
@@ -162,6 +159,7 @@ function App() {
     setNoNewsFound(false);
     setArticlesCount(defaultArticlesCount);
     setPreloaderRunning(true);
+    localStorage.setItem('keyword', keyword);
     getArticles(keyword)
       .then(res => {
         if (res.articles.length === 0) {
@@ -170,22 +168,31 @@ function App() {
           return
         }
         else {
+          localStorage.setItem('searched', JSON.stringify(res.articles));
           setArticlesArray(res.articles);
           return res.articles
         }
       })
-      .then(() => setTimeout(setPreloaderRunning, 500, false))
+      .then(() => setTimeout(setPreloaderRunning, preloaderTimeout, false))
   }
 
   const tokenCheck = () => {
     const token = localStorage.getItem('jwt');
     if (token) {
-      const name = localStorage.getItem('name');
-      const email = localStorage.getItem('email');
-      const _id = localStorage.getItem('_id');
-      setCurrentUser({ name, email, _id });
-      setLoggedIn(true);
-      getSavedArticles(token);
+      return MainApi
+        .getProfile(token)
+        .then(() => {
+          let name = localStorage.getItem('name');
+          let email = localStorage.getItem('email');
+          let _id = localStorage.getItem('_id');
+          let searched = localStorage.getItem('searched');
+          let keyword = localStorage.getItem('keyword');
+          setCurrentUser({ name, email, _id});
+          setArticlesArray(JSON.parse(searched));
+          setKeyword(keyword);
+          setLoggedIn(true);
+          getSavedArticles(token);
+        })
     }
   };
 

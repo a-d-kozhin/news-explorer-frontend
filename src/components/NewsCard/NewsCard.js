@@ -21,7 +21,7 @@ function NewsCard({ image, date, title, text, source, link, loggedIn, articleId,
   function deleteArticle() {
     const myArticlesArray = JSON.parse(localStorage.getItem('saved'));
     const articleToDelete = myArticlesArray.find((item) => item.text === articleObj.text && item.title === articleObj.title);
-    handleArticleDeletion(articleToDelete._id);
+    handleArticleDeletion(articleToDelete._id)
     setSaved(!isSaved);
   }
 

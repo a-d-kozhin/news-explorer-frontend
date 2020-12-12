@@ -2,7 +2,7 @@ import React from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function SavedNewsHeader({ savedArticles }) {
-  const keywordsArray = savedArticles.map(article => article.keyword)
+  const keywordsArray = savedArticles.map(article => article.keyword);
 
   const i = new Set(keywordsArray);
 

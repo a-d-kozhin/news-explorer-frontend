@@ -8,7 +8,6 @@ function _handleResponse(res) {
     return res.json();
 }
 
-// обработка ошибок
 function _handleError(err) {
   return Promise.reject(`An error occured: ${err.message}`)
 }
@@ -33,14 +32,28 @@ export const authorize = (email, password) => {
     .then((res) => {
       if (res.token) {
         localStorage.setItem('jwt', res.token);
-        localStorage.setItem('name', res.user.name);
-        localStorage.setItem('email', res.user.email);
-        localStorage.setItem('_id', res.user._id);
-        localStorage.setItem('loggedIn', true);
         return res;
       } else {
         return res;
       }
+    })
+    .catch(err => _handleError)
+};
+
+export const getProfile = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+    .then(res => _handleResponse(res))
+    .then(res => {
+      localStorage.setItem('name', res.name);
+      localStorage.setItem('email', res.email);
+      localStorage.setItem('_id', res._id);
+      localStorage.setItem('loggedIn', true);
     })
     .catch(err => _handleError)
 };
